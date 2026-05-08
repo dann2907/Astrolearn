@@ -27,6 +27,7 @@ coverage/
 .dockerignore
 PRD.md
 Prodbacklog.md
+conductor/
 
 # Backend
 dist/

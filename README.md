@@ -1,5 +1,17 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Folder Tree
+
+├───apps\
+  │   ├───api\ (Hono.js)
+  │   └───web\ (Next.js)
+  │       ├───app\ (App Router)
+  │       ├───components\ (UI/Features)
+  │       ├───content\ (MDX modules)
+  │       └───store\ (Zustand/State)
+  ├───conductor\ (Plan tracking)
+  ├───docs\ (Sprint docs)
+
 ## Getting Started
 
 First, run the development server:
