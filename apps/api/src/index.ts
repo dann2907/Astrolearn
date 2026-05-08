@@ -13,9 +13,18 @@ type Variables = {
 
 const app = new Hono<{ Variables: Variables }>().basePath('/api')
 
+app.get('/health', (c) => {
+  return c.json({
+    status: 'ok',
+    service: 'astrolearn-api'
+  })
+})
+
 // Middleware
 app.use('*', cors({
-  origin: '*', // Restrict this in production
+  origin: ['https://astrolearn.vercel.app',
+            'http://localhost:3000'
+  ],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
   exposeHeaders: ['Content-Length'],
