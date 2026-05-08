@@ -1,48 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Astrolearn
 
-## Folder Tree
+Astrolearn adalah platform edukasi astronomi gratis yang menggabungkan kurikulum terstruktur dengan gamifikasi RPG ringan dan minigame space shooter.
 
-├───apps\
-  │   ├───api\ (Hono.js)
-  │   └───web\ (Next.js)
-  │       ├───app\ (App Router)
-  │       ├───components\ (UI/Features)
-  │       ├───content\ (MDX modules)
-  │       └───store\ (Zustand/State)
-  ├───conductor\ (Plan tracking)
-  ├───docs\ (Sprint docs)
+## Struktur Monorepo
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```text
+├── apps/
+│   ├── api/          # Backend Hono.js (Port 3001)
+│   │   └── src/      # Auth Middleware, RPG Services, Quiz Logic
+│   └── web/          # Frontend Next.js 15 (Port 3000)
+│       ├── app/      # App Router & Server Actions
+│       ├── components/ # UI (Framer Motion + Tailwind)
+│       └── content/   # Kurikulum MDX (Hierarchical)
+├── docs/             # Dokumentasi Sprint & PRD
+└── supabase/         # Migrasi Database (PostgreSQL)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Teknologi Utama
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend**: Next.js 15, React 19, Tailwind CSS, Framer Motion.
+- **Backend**: Hono.js (Node.js runtime).
+- **Database & Auth**: Supabase.
+- **Konten**: Local MDX dengan dukungan metadata (XP reward, slug).
+- **Game Engine**: Phaser.js 4 (Eskadron Penjelajah).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Persiapan Lingkungan
 
-## Learn More
+### 1. Database
+Jalankan migrasi di `supabase/migrations/` ke instance Supabase Anda melalui SQL Editor.
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Environment Variables
+- **Web (`apps/web/.env.local`)**:
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+  - `NEXT_PUBLIC_GEMINI_API_KEY` (untuk Oracle Kosmik)
+- **API (`apps/api/.env`)**:
+  - `SUPABASE_URL`
+  - `SUPABASE_ANON_KEY`
+  - `SUPABASE_SERVICE_ROLE_KEY` (Wajib untuk sistem XP/Admin)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Cara Menjalankan
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Gunakan `pnpm` untuk menjalankan aplikasi secara lokal:
 
-## Deploy on Vercel
+```bash
+# Install dependensi
+pnpm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Jalankan Web App (Dashboard & Akademi)
+pnpm --filter web dev
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Jalankan Backend API (Sistem Kuis & XP)
+pnpm --filter api dev
+```
+
+## Fitur Saat Ini (Sprint 1)
+- [x] Sistem Login & Profil (Supabase).
+- [x] Akademi Kosmik dengan materi MDX terstruktur.
+- [x] Kuis mini dengan validasi server-side dan anti-cheat.
+- [x] Sistem RPG: Akumulasi XP, Level-up, dan Pangkat (Kadet -> Laksamana).
+- [x] Dashboard interaktif dengan ringkasan progres.
+- [x] Eskadron Penjelajah (Phaser foundation & basic loop).
