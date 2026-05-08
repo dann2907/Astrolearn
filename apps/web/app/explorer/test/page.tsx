@@ -1,8 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import GameCanvas from '@/components/modules/game/GameCanvas';
-import { GAME_CONFIG } from '@/lib/game/config';
+import dynamic from 'next/dynamic';
+
+const GameCanvasWithConfig = dynamic(
+  () => import('@/components/modules/game/GameCanvasWithConfig'),
+  { ssr: false, loading: () => <div className="w-full h-full bg-slate-800 rounded-xl animate-pulse" /> }
+);
 
 export default function GameTestPage() {
   const [mountCount, setMountCount] = useState(0);
@@ -29,7 +33,7 @@ export default function GameTestPage() {
       
       {isMounted && (
         <div className="w-full max-w-4xl aspect-[4/3] mx-auto">
-          <GameCanvas config={GAME_CONFIG} />
+          <GameCanvasWithConfig />
         </div>
       )}
     </div>
