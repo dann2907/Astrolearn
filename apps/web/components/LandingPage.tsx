@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useState } from 'react'
+import Image from 'next/image'
 import { 
   Globe, Gamepad2, FileQuestion, Trophy, 
-  ArrowRight, Sparkles, LogIn
+  ArrowRight, Sparkles, LogIn, Rocket
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import LoginModal from './auth/LoginModal'
@@ -68,45 +69,49 @@ export default function LandingPage() {
 
             {/* Teks Hero */}
             <div className="relative z-20 space-y-2">
-              <h2 className="text-xl md:text-2xl font-black text-blue-400 uppercase tracking-[0.3em] mb-4">Selamat Datang di</h2>
+              <h2 className="text-xl md:text-2xl font-black text-orange-400 animate-pulse uppercase tracking-[0.3em] mb-4">Misi Rahasia Dimulai!</h2>
               <div className="relative inline-block">
                 <h1 className="text-6xl md:text-[100px] font-black tracking-tighter mb-6 relative z-10 leading-none">
-                  <span className="text-white">ASTRO</span><span className="text-[#FACC15] drop-shadow-[0_0_30px_rgba(250,204,21,0.3)]">LEARN</span>
+                  <span className="text-white">ASTRO</span><span className="text-yellow-400 drop-shadow-[0_0_30px_rgba(250,204,21,0.6)]">LEARN</span>
                 </h1>
-                <div className="absolute -bottom-2 left-0 w-full h-3 bg-blue-600 rounded-full blur-[2px]"></div>
+                <div className="absolute -bottom-2 left-0 w-full h-3 bg-orange-500 rounded-full blur-[2px]"></div>
               </div>
               
-              <p className="text-lg md:text-xl text-slate-400 max-w-xl mx-auto mb-10 font-bold leading-relaxed">
-                Belajar Tata Surya jadi lebih seru, interaktif, dan menyenangkan!
+              <p className="text-lg md:text-2xl text-blue-200 max-w-xl mx-auto mb-10 font-black leading-relaxed drop-shadow-lg">
+                Jadilah Pahlawan Antariksa! Jelajahi bintang, main game seru, dan menangkan hadiah keren!
               </p>
 
               <button 
                 onClick={openLogin}
-                className="bg-gradient-to-b from-blue-500 to-blue-700 hover:from-blue-400 hover:to-blue-600 text-white font-black text-lg uppercase tracking-widest py-5 px-12 rounded-full shadow-[0_0_40px_rgba(37,99,235,0.4)] transition-all transform hover:scale-105 active:scale-95 group"
+                className="bg-gradient-to-r from-orange-500 via-yellow-400 to-orange-500 hover:scale-110 text-blue-900 font-black text-xl uppercase tracking-widest py-6 px-16 rounded-full shadow-[0_0_50px_rgba(249,115,22,0.6)] transition-all transform active:scale-95 group relative overflow-hidden"
               >
-                Mulai Petualangan!
+                <span className="relative z-10 flex items-center gap-3">
+                  <Rocket className="w-6 h-6 animate-bounce" /> AYO TERBANG!
+                </span>
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform" />
               </button>
             </div>
           </div>
 
           {/* Cards Section (Quick Preview) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-20 z-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-20 z-20 px-4">
             {[
-              { id: 'materi', title: 'Materi', icon: <Globe />, color: 'blue', desc: 'Eksplorasi tata surya.' },
-              { id: 'game', title: 'Game', icon: <Gamepad2 />, color: 'purple', desc: 'Tantangan seru shooter.' },
-              { id: 'kuis', title: 'Kuis', icon: <FileQuestion />, color: 'green', desc: 'Uji pemahamanmu.' },
-              { id: 'proses&badge', title: 'Badge', icon: <Trophy />, color: 'orange', desc: 'Lihat progresmu.' }
+              { id: 'materi', title: 'Planet Ajaib', icon: <Globe />, color: 'from-blue-400 to-indigo-600', desc: 'Lihat planet-planet yang sangat keren!', shadow: 'shadow-blue-500/40' },
+              { id: 'game', title: 'Main Seru', icon: <Gamepad2 />, color: 'from-purple-400 to-pink-600', desc: 'Tembak asteroid & selamatkan bumi!', shadow: 'shadow-purple-500/40' },
+              { id: 'kuis', title: 'Kuis Pintar', icon: <FileQuestion />, color: 'from-emerald-400 to-teal-600', desc: 'Jawab teka-teki & jadi yang terbaik!', shadow: 'shadow-emerald-500/40' },
+              { id: 'proses&badge', title: 'Hadiah Keren', icon: <Trophy />, color: 'from-orange-400 to-red-600', desc: 'Kumpulkan badge bintang & level up!', shadow: 'shadow-orange-500/40' }
             ].map((card) => (
               <button 
                 key={card.id} 
                 onClick={() => setActiveTab(card.id as LandingTab)}
-                className="bg-slate-900/50 border border-slate-800 p-6 rounded-[2rem] text-left hover:border-slate-700 transition-all hover:-translate-y-2 group"
+                className={`bg-gradient-to-br ${card.color} p-8 rounded-[2.5rem] text-left hover:scale-105 transition-all shadow-xl ${card.shadow} group relative overflow-hidden border-2 border-white/20`}
               >
-                <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  {React.cloneElement(card.icon as React.ReactElement, { className: 'w-6 h-6 text-white' })}
+                <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all" />
+                <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform shadow-inner">
+                  {React.cloneElement(card.icon as React.ReactElement, { className: 'w-8 h-8 text-white' })}
                 </div>
-                <h4 className="text-lg font-bold text-white mb-2">{card.title}</h4>
-                <p className="text-xs text-slate-500 font-medium">{card.desc}</p>
+                <h4 className="text-xl font-black text-white mb-2 tracking-tight">{card.title}</h4>
+                <p className="text-xs text-white/80 font-bold leading-relaxed">{card.desc}</p>
               </button>
             ))}
           </div>
@@ -139,15 +144,21 @@ export default function LandingPage() {
       <div className="relative z-10 max-w-[1200px] mx-auto px-6 pb-12 flex flex-col min-h-screen">
         <nav className="flex items-center justify-between py-6">
           <div onClick={() => setActiveTab('beranda')} className="flex items-center gap-3 cursor-pointer group">
-            <div className="relative">
-              <Globe className="w-10 h-10 text-orange-400 group-hover:rotate-12 transition-transform duration-500" />
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-4 border-2 border-blue-400 rounded-full -rotate-12"></div>
+            <div className="relative w-12 h-12 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110 flex items-center justify-center">
+              <Image 
+                src="/logo.png" 
+                alt="AstroLearn Logo" 
+                width={48}
+                height={48}
+                priority
+                className="object-contain drop-shadow-[0_0_8px_rgba(251,146,60,0.6)]"
+              />
             </div>
             <div>
               <h1 className="text-2xl font-black leading-tight tracking-tighter">
                 <span className="text-white">ASTRO</span><span className="text-orange-400">LEARN</span>
               </h1>
-              <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Penjelajah Tata Surya</p>
+              <p className="text-[10px] text-orange-400/70 font-bold uppercase tracking-widest">Penjelajah Antariksa Cilik</p>
             </div>
           </div>
 
