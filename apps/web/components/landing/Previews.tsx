@@ -205,7 +205,7 @@ export const MateriPreview = ({ onCTA }: PreviewProps) => {
                       <span className="text-xs font-black text-blue-400 uppercase tracking-widest">Fakta Unik</span>
                     </div>
                     <p className="text-sm text-slate-300 leading-relaxed font-medium italic">
-                      "{selectedPlanet.facts}"
+                      &ldquo;{selectedPlanet.facts}&rdquo;
                     </p>
                   </div>
 
