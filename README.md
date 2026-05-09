@@ -1,6 +1,6 @@
 # Astrolearn
 
-Astrolearn adalah platform edukasi astronomi gratis yang menggabungkan kurikulum terstruktur dengan gamifikasi RPG ringan dan minigame space shooter.
+Astrolearn adalah platform edukasi astronomi gratis yang menggabungkan kurikulum terstruktur dengan gamifikasi RPG ringan dan minigame space shooter. Platform ini dirancang khusus untuk anak-anak agar belajar luar angkasa menjadi petualangan yang seru! 🚀✨
 
 ## Struktur Monorepo
 
@@ -9,19 +9,21 @@ Astrolearn adalah platform edukasi astronomi gratis yang menggabungkan kurikulum
 │   ├── api/          # Backend Hono.js (Port 3001)
 │   │   └── src/      # Auth Middleware, RPG Services, Quiz Logic
 │   └── web/          # Frontend Next.js 15 (Port 3000)
-│       ├── app/      # App Router & Server Actions
-│       ├── components/ # UI (Framer Motion + Tailwind)
-│       └── content/   # Kurikulum MDX (Hierarchical)
-├── docs/             # Dokumentasi Sprint & PRD
+│       ├── app/      # (app) Group untuk Rute Terproteksi, Landing Page di Root
+│       ├── components/ # UI (Framer Motion + Tailwind + Three.js)
+│       ├── content/   # Kurikulum MDX (Hierarchical)
+│       └── store/     # State Management (Zustand)
+├── docs/             # Dokumentasi Sprint, PRD & User Guide
 └── supabase/         # Migrasi Database (PostgreSQL)
 ```
 
 ## Teknologi Utama
 
 - **Frontend**: Next.js 15, React 19, Tailwind CSS, Framer Motion.
+- **Interaktivitas**: Three.js + React Three Fiber (R3F) untuk simulasi tata surya.
 - **Backend**: Hono.js (Node.js runtime).
-- **Database & Auth**: Supabase.
-- **Konten**: Local MDX dengan dukungan metadata (XP reward, slug).
+- **Database & Auth**: Supabase (@supabase/ssr).
+- **Konten**: Local MDX dengan metadata terstruktur (XP reward, slug).
 - **Game Engine**: Phaser.js 4 (Eskadron Penjelajah).
 
 ## Persiapan Lingkungan
@@ -33,11 +35,11 @@ Jalankan migrasi di `supabase/migrations/` ke instance Supabase Anda melalui SQL
 - **Web (`apps/web/.env.local`)**:
   - `NEXT_PUBLIC_SUPABASE_URL`
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-  - `NEXT_PUBLIC_GEMINI_API_KEY` (untuk Oracle Kosmik)
+  - `NEXT_PUBLIC_SITE_URL` (Opsional, untuk metadataBase)
 - **API (`apps/api/.env`)**:
   - `SUPABASE_URL`
   - `SUPABASE_ANON_KEY`
-  - `SUPABASE_SERVICE_ROLE_KEY` (Wajib untuk sistem XP/Admin)
+  - `SUPABASE_SERVICE_ROLE_KEY` (Wajib untuk pemberian XP otomatis)
 
 ## Cara Menjalankan
 
@@ -47,17 +49,18 @@ Gunakan `pnpm` untuk menjalankan aplikasi secara lokal:
 # Install dependensi
 pnpm install
 
-# Jalankan Web App (Dashboard & Akademi)
+# Jalankan Web App (Landing Page, Dashboard & Akademi)
 pnpm --filter web dev
 
 # Jalankan Backend API (Sistem Kuis & XP)
 pnpm --filter api dev
 ```
 
-## Fitur Saat Ini (Sprint 1)
-- [x] Sistem Login & Profil (Supabase).
-- [x] Akademi Kosmik dengan materi MDX terstruktur.
-- [x] Kuis mini dengan validasi server-side dan anti-cheat.
-- [x] Sistem RPG: Akumulasi XP, Level-up, dan Pangkat (Kadet -> Laksamana).
-- [x] Dashboard interaktif dengan ringkasan progres.
-- [x] Eskadron Penjelajah (Phaser foundation & basic loop).
+## Fitur Unggulan (Sprint 1.x)
+- [x] **Beranda Interaktif**: Landing page dengan simulasi tata surya 3D live engine.
+- [x] **Sistem Login & Profil**: Otorisasi aman dengan Supabase Auth (Modal & Full Page).
+- [x] **Akademi Kosmik**: Kurikulum terstruktur menggunakan materi MDX interaktif.
+- [x] **Kuis Arena**: Kuis mini dengan feedback visual instan dan XP reward.
+- [x] **RPG Progression**: Naik level dari Kadet hingga Laksamana berdasarkan aktivitas.
+- [x] **Command Dashboard**: Pusat kendali progres, badge, dan statistik pemain.
+- [x] **Eskadron Penjelajah**: Minigame shooter luar angkasa terintegrasi kurikulum.
