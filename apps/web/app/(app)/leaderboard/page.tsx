@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { fetchLeaderboard } from '@/lib/api/quiz';
 import type { LeaderboardEntry } from '@/lib/quiz/types';
 

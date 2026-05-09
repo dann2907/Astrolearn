@@ -108,7 +108,7 @@ async function mockSubmitQuizResult(result: QuizResult): Promise<{ xp: number }>
   return { xp };
 }
 
-async function mockFetchLeaderboard(scope: string): Promise<LeaderboardEntry[]> {
+async function mockFetchLeaderboard(_scope: string): Promise<LeaderboardEntry[]> {
   await new Promise(r => setTimeout(r, 400));
   
   return [

@@ -5,7 +5,7 @@ import type { Question, QuestionAnswer, GameResult } from '@/lib/game/types';
 export class GameScene extends Phaser.Scene {
   private player!: Phaser.GameObjects.Rectangle;
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-  private wasd!: any;
+  private wasd!: { [key: string]: Phaser.Input.Keyboard.Key };
   private bullets!: Phaser.Physics.Arcade.Group;
   private lastFired = 0;
   private fireRate = 250; // ms
@@ -80,7 +80,7 @@ export class GameScene extends Phaser.Scene {
       left: Phaser.Input.Keyboard.KeyCodes.A,
       right: Phaser.Input.Keyboard.KeyCodes.D,
       space: Phaser.Input.Keyboard.KeyCodes.SPACE,
-    });
+    }) as { [key: string]: Phaser.Input.Keyboard.Key };
   }
 
   private setupBullets() {
@@ -322,7 +322,8 @@ export class GameScene extends Phaser.Scene {
   }
 
   private cleanupBullets() {
-    this.bullets.getChildren().forEach((bullet: any) => {
+    this.bullets.getChildren().forEach((bulletObject) => {
+      const bullet = bulletObject as Phaser.GameObjects.Rectangle;
       if (bullet.y < -50) {
         bullet.destroy();
       }

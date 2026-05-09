@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { 
   Globe, Gamepad2, FileQuestion, Trophy, 
-  ArrowRight, Sparkles, LogIn, Rocket
+  Sparkles, LogIn, Rocket
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import LoginModal from './auth/LoginModal'
@@ -108,7 +108,7 @@ export default function LandingPage() {
               >
                 <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all" />
                 <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform shadow-inner">
-                  {React.cloneElement(card.icon as React.ReactElement, { className: 'w-8 h-8 text-white' })}
+                  {React.cloneElement(card.icon as React.ReactElement<{ className?: string }>, { className: 'w-8 h-8 text-white' })}
                 </div>
                 <h4 className="text-xl font-black text-white mb-2 tracking-tight">{card.title}</h4>
                 <p className="text-xs text-white/80 font-bold leading-relaxed">{card.desc}</p>

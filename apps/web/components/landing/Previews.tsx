@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { 
-  Globe, Gamepad2, BrainCircuit, Trophy, 
+  Globe, BrainCircuit, Trophy, 
   ArrowRight, Sparkles, BookOpen, Star, Zap,
-  CheckCircle2, Lock, Shield, MousePointerClick, Info
+  CheckCircle2, Shield, MousePointerClick, Info
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
@@ -23,8 +24,17 @@ interface PreviewProps {
   onCTA: () => void;
 }
 
+interface PlanetData {
+  id: string;
+  name: string;
+  texturePath: string;
+  distStr: string;
+  revStr: string;
+  facts: string;
+}
+
 export const MateriPreview = ({ onCTA }: PreviewProps) => {
-  const [selectedPlanet, setSelectedPlanet] = React.useState<any>(null);
+  const [selectedPlanet, setSelectedPlanet] = React.useState<PlanetData | null>(null);
 
   return (
     <motion.div 
@@ -163,10 +173,11 @@ export const MateriPreview = ({ onCTA }: PreviewProps) => {
                 >
                   <div className="flex items-center gap-4 pb-6 border-b border-slate-800">
                     <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-lg bg-slate-950 overflow-hidden relative border border-white/10">
-                       <img 
+                       <Image 
                           src={selectedPlanet.texturePath} 
                           alt={selectedPlanet.name} 
-                          className="w-full h-full object-cover scale-150"
+                          fill
+                          className="object-cover scale-150"
                         />
                        <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent" />
                     </div>
