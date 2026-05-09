@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Rocket, BookOpen, CheckCircle2, Play, Lock, ChevronRight, Star } from 'lucide-react'
+import { BackButton } from '@/components/shared/back-button'
 
 interface Chapter {
   id: string
@@ -45,30 +46,18 @@ export default async function AcademyPage() {
   const completedIds = progress?.filter(p => p.status === 'completed').map(p => p.module_id) || []
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans pb-20">
-      {/* Header */}
-      <header className="bg-slate-900/50 backdrop-blur-md sticky top-0 z-30 border-b border-slate-800">
-        <div className="max-w-5xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-violet-400">
-            <Rocket className="w-8 h-8 fill-current" />
-            <span className="font-black text-2xl tracking-tighter text-white">ASTROLEARN</span>
-          </Link>
-          <div className="flex items-center gap-3">
-             <div className="bg-slate-800 px-4 py-2 rounded-xl border border-slate-700">
-                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Pangkat</p>
-                <p className="text-sm font-bold text-violet-300">Navigator</p>
-             </div>
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      <div className="mb-12">
+        <h1 className="text-4xl font-black text-white tracking-tight mb-2 flex items-center gap-4">
+          <div className="p-3 bg-violet-600 rounded-2xl shadow-lg shadow-violet-500/20">
+            <BookOpen className="w-8 h-8 text-white" />
           </div>
-        </div>
-      </header>
+          Akademi Kosmik
+        </h1>
+        <p className="text-slate-400">Jelajahi rahasia alam semesta melalui kurikulum terstruktur kami.</p>
+      </div>
 
-      <main className="max-w-4xl mx-auto px-6 py-12">
-        <div className="mb-12">
-          <h1 className="text-4xl font-black text-white tracking-tight mb-2">Akademi Kosmik</h1>
-          <p className="text-slate-400">Jelajahi rahasia alam semesta melalui kurikulum terstruktur kami.</p>
-        </div>
-
-        <div className="space-y-12">
+      <div className="space-y-12">
           {chapters?.map((chapter) => (
             <div key={chapter.id} className={`relative ${chapter.is_locked ? 'opacity-50' : ''}`}>
               <div className="flex items-center gap-4 mb-6">
@@ -136,8 +125,7 @@ export default async function AcademyPage() {
               </div>
             </div>
           ))}
-        </div>
-      </main>
+      </div>
     </div>
   )
 }

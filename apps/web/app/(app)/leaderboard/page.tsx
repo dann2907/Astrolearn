@@ -34,9 +34,9 @@ export default function LeaderboardPage() {
   }, [scope]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 py-12">
-      <div className="container mx-auto px-4">
-        <h1 className="text-5xl font-bold text-white text-center mb-8">
+    <div className="p-4 md:p-8 lg:p-12">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-5xl font-black text-white text-center mb-12 tracking-tighter">
           LEADERBOARD
         </h1>
 
@@ -130,16 +130,6 @@ export default function LeaderboardPage() {
               </table>
             </div>
           )}
-        </div>
-
-        {/* Back button */}
-        <div className="text-center mt-8">
-          <Link
-            href="/arena"
-            className="inline-block px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-lg transition"
-          >
-            ← Kembali ke Arena
-          </Link>
         </div>
       </div>
     </div>

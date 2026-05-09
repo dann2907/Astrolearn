@@ -38,22 +38,15 @@ export default async function ModulePage({
   const isCompleted = progress?.status === 'completed'
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans pb-20">
-      {/* Header */}
-      <header className="bg-slate-900/50 backdrop-blur-md sticky top-0 z-30 border-b border-slate-800">
-        <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/academy" className="flex items-center gap-2 text-slate-400 hover:text-white transition">
-            <ArrowLeft className="w-5 h-5" />
-            <span className="text-sm font-bold">Kembali ke Akademi</span>
-          </Link>
-          <div className="flex items-center gap-2 text-violet-400">
-            <Rocket className="w-5 h-5" />
-            <span className="font-black tracking-tighter">ASTROLEARN</span>
-          </div>
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      <Link href="/academy" className="inline-flex items-center gap-2 text-slate-500 hover:text-white transition-colors mb-12 group">
+        <div className="p-2 bg-slate-900 rounded-lg border border-slate-800 group-hover:border-slate-700">
+          <ArrowLeft className="w-4 h-4" />
         </div>
-      </header>
+        <span className="text-xs font-black uppercase tracking-widest">Kembali ke Kurikulum</span>
+      </Link>
 
-      <main className="max-w-3xl mx-auto px-6 py-12">
+      <main className="max-w-3xl mx-auto">
         <div className="mb-10">
           <div className="flex items-center gap-2 text-amber-500 mb-2">
             <Star className="w-4 h-4 fill-current" />
