@@ -3,6 +3,8 @@ import { BootScene } from './scenes/BootScene';
 import { PreloadScene } from './scenes/PreloadScene';
 import { MenuScene } from './scenes/MenuScene';
 import { GameScene } from './scenes/GameScene';
+import { QuestionOverlayScene } from './scenes/QuestionOverlayScene';
+import { GameOverScene } from './scenes/GameOverScene';
 
 export const GAME_CONFIG: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -23,5 +25,5 @@ export const GAME_CONFIG: Phaser.Types.Core.GameConfig = {
   audio: {
     disableWebAudio: true,
   },
-  scene: [BootScene, PreloadScene, MenuScene, GameScene],
+  scene: [BootScene, PreloadScene, MenuScene, GameScene, QuestionOverlayScene, GameOverScene],
 };

@@ -5,6 +5,7 @@ import { authMiddleware } from './middleware/auth'
 import chapters from './routes/chapters'
 import quiz from './routes/quiz'
 import users from './routes/users'
+import games from './routes/games'
 import { User } from '@supabase/supabase-js'
 
 type Variables = {
@@ -39,11 +40,13 @@ app.get('/', (c) => c.text('Astrolearn API is running!'))
 app.use('/chapters/*', authMiddleware)
 app.use('/quiz/*', authMiddleware)
 app.use('/users/*', authMiddleware)
+app.use('/games/*', authMiddleware)
 
 // Mount routes
 app.route('/chapters', chapters)
 app.route('/quiz', quiz)
 app.route('/users', users)
+app.route('/games', games)
 
 const port = 3001
 console.log(`Server is running on port ${port}`)

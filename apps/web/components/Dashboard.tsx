@@ -71,28 +71,28 @@ export default function Dashboard({ initialUserData, completedModuleIds }: Dashb
 
   const Sidebar = () => {
     const mainNav = [
-      { id: 'dashboard', icon: Rocket, label: 'Dashboard' },
-      { id: 'academy', icon: BookOpen, label: 'Akademi' },
-      { id: 'quiz', icon: BrainCircuit, label: 'Arena Kuis' },
-      { id: 'game', icon: Zap, label: 'Shooter' },
+      { id: 'dashboard', icon: Rocket, label: 'Dashboard', href: '/' },
+      { id: 'academy', icon: BookOpen, label: 'Akademi', href: '/academy' },
+      { id: 'quiz', icon: BrainCircuit, label: 'Arena Kuis', href: '/arena' },
+      { id: 'game', icon: Zap, label: 'Shooter', href: '/explorer' },
     ];
     const socialNav = [
-      { id: 'leaderboard', icon: Trophy, label: 'Leaderboard' },
-      { id: 'skilltree', icon: Network, label: 'Skill Tree' },
-      { id: 'collection', icon: Archive, label: 'Koleksi' },
+      { id: 'leaderboard', icon: Trophy, label: 'Leaderboard', href: '/leaderboard' },
+      { id: 'skilltree', icon: Network, label: 'Skill Tree', href: '/skills' },
+      { id: 'collection', icon: Archive, label: 'Koleksi', href: '/collection' },
     ];
 
     return (
       <aside className="hidden md:flex flex-col w-[240px] bg-slate-950 border-r border-slate-800/50 h-screen sticky top-0 overflow-y-auto z-40">
         <div className="p-6">
           {/* Logo */}
-          <div className="flex items-center gap-2 text-violet-400 mb-8">
+          <Link href="/" className="flex items-center gap-2 text-violet-400 mb-8">
             <Rocket className="w-8 h-8 fill-current" />
             <span className="font-black text-2xl tracking-tighter text-white">ASTROLEARN</span>
-          </div>
+          </Link>
 
           {/* Mini Profile */}
-          <div className="bg-slate-900/50 rounded-xl p-3 border border-slate-800/50 mb-8 cursor-pointer hover:bg-slate-900 transition group">
+          <Link href="/profile" className="block bg-slate-900/50 rounded-xl p-3 border border-slate-800/50 mb-8 cursor-pointer hover:bg-slate-900 transition group">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-violet-600 to-fuchsia-600 flex items-center justify-center border-2 border-slate-800 group-hover:border-violet-400 transition shadow-lg">
                 <User className="w-5 h-5 text-white" />
@@ -109,7 +109,7 @@ export default function Dashboard({ initialUserData, completedModuleIds }: Dashb
                 className="h-full bg-gradient-to-r from-violet-500 to-fuchsia-500"
               />
             </div>
-          </div>
+          </Link>
 
           {/* Nav Groups */}
           <div className="space-y-6">
@@ -143,44 +143,48 @@ export default function Dashboard({ initialUserData, completedModuleIds }: Dashb
     );
   };
 
-  const NavBtn = ({ item }: { item: any }) => (
-    <button 
-      onClick={() => navigateTo(item.id)}
-      className={`flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative ${
-        currentView === item.id 
-          ? 'bg-violet-600/10 text-white' 
-          : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/50'
-      }`}
-    >
-      {currentView === item.id && (
-        <motion.div layoutId="nav-pill" className="absolute left-0 w-1 h-5 bg-violet-500 rounded-r-full" />
-      )}
-      <item.icon className={`w-5 h-5 transition-transform group-hover:scale-110 ${
-        currentView === item.id ? 'text-violet-400' : 'text-slate-500 group-hover:text-slate-300'
-      }`} />
-      <span className={currentView === item.id ? 'font-bold' : ''}>{item.label}</span>
-    </button>
-  );
+  const NavBtn = ({ item }: { item: any }) => {
+    const isActive = currentView === item.id || (item.id === 'dashboard' && currentView === 'dashboard');
+    
+    return (
+      <Link 
+        href={item.href}
+        className={`flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative ${
+          isActive 
+            ? 'bg-violet-600/10 text-white' 
+            : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/50'
+        }`}
+      >
+        {isActive && (
+          <motion.div layoutId="nav-pill" className="absolute left-0 w-1 h-5 bg-violet-500 rounded-r-full" />
+        )}
+        <item.icon className={`w-5 h-5 transition-transform group-hover:scale-110 ${
+          isActive ? 'text-violet-400' : 'text-slate-500 group-hover:text-slate-300'
+        }`} />
+        <span className={isActive ? 'font-bold' : ''}>{item.label}</span>
+      </Link>
+    );
+  };
 
   const MobileNav = () => (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-slate-950/80 backdrop-blur-xl border-t border-slate-800/50 z-50 flex items-center justify-around px-2">
       {[
-        { id: 'dashboard', icon: Rocket, label: 'Home' },
-        { id: 'academy', icon: BookOpen, label: 'Akademi' },
-        { id: 'quiz', icon: BrainCircuit, label: 'Kuis' },
-        { id: 'game', icon: Zap, label: 'Shooter' },
-        { id: 'more', icon: Menu, label: 'Lainnya' },
+        { id: 'dashboard', icon: Rocket, label: 'Home', href: '/' },
+        { id: 'academy', icon: BookOpen, label: 'Akademi', href: '/academy' },
+        { id: 'quiz', icon: BrainCircuit, label: 'Kuis', href: '/arena' },
+        { id: 'game', icon: Zap, label: 'Shooter', href: '/explorer' },
+        { id: 'profile', icon: User, label: 'Profil', href: '/profile' },
       ].map(item => (
-        <button 
+        <Link 
           key={item.id}
-          onClick={() => navigateTo(item.id)}
+          href={item.href}
           className={`flex flex-col items-center gap-1 min-w-[64px] transition-colors ${
             currentView === item.id ? 'text-violet-400' : 'text-slate-500'
           }`}
         >
           <item.icon className="w-5 h-5" />
           <span className="text-[9px] font-bold uppercase tracking-wide">{item.label}</span>
-        </button>
+        </Link>
       ))}
     </nav>
   );
@@ -420,6 +424,31 @@ export default function Dashboard({ initialUserData, completedModuleIds }: Dashb
           
           <main className="p-4 md:p-8 lg:p-12 space-y-10 max-w-7xl mx-auto w-full">
             
+            {/* Arena & Leaderboard Quick Access */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              <Link
+                href="/arena"
+                className="group block p-8 bg-gradient-to-br from-cyan-600 to-blue-700 hover:from-cyan-500 hover:to-blue-600 rounded-3xl text-white text-center transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all" />
+                <h3 className="text-3xl font-black mb-2 flex items-center justify-center gap-2">
+                  <Zap className="w-8 h-8 fill-yellow-400 text-yellow-400" /> ARENA KUIS
+                </h3>
+                <p className="text-cyan-100 font-medium">Uji pengetahuan astronomimu dalam 60 detik!</p>
+              </Link>
+
+              <Link
+                href="/leaderboard"
+                className="group block p-8 bg-gradient-to-br from-amber-600 to-orange-700 hover:from-amber-500 hover:to-orange-600 rounded-3xl text-white text-center transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all" />
+                <h3 className="text-3xl font-black mb-2 flex items-center justify-center gap-2">
+                  <Trophy className="w-8 h-8 fill-yellow-300 text-yellow-300" /> LEADERBOARD
+                </h3>
+                <p className="text-amber-100 font-medium">Lihat siapa penjelajah antariksa terbaik!</p>
+              </Link>
+            </div>
+
             <QuickStats />
 
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">

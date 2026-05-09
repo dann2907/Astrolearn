@@ -45,8 +45,27 @@ pnpm --filter web dev
 - Use object pooling for bullets
 - Destroy offscreen objects
 
-## Next Steps (Sprint 1.2b)
-- [ ] Add enemies/asteroids
-- [ ] Integrate question overlay
-- [ ] Implement power-ups
-- [ ] Connect to backend API
+## Question Integration (Sprint 1.2b)
+
+### Flow
+1. Every 30 seconds, game pauses
+2. API call to `GET /api/questions/random`
+3. `QuestionOverlayScene` displays question
+4. User selects answer
+5. Game resumes (Score updated, power-up/debuff applied)
+6. Repeat until game over (HP = 0 or Manual End)
+
+### API Endpoints Used
+
+**Fetch Question:**
+`GET /api/questions/random?count=1&topics=tata-surya,bintang`
+
+**Submit Result:**
+`POST /api/games/shooter/result`
+Body: `{ score, duration, answers }`
+
+### Mock API
+Set `NEXT_PUBLIC_USE_MOCK_API=true` in `.env.local` to use mock data during development.
+
+### Testing Game Over Flow
+In development, click "End Game" button (bottom-right) to trigger game over immediately.

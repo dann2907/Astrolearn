@@ -26,7 +26,7 @@ users.get('/me', async (c) => {
   })
 })
 
-// GET /api/progress
+// GET /api/users/progress
 users.get('/progress', async (c) => {
   const user = c.get('user')
   const { data: progress, error } = await supabase
@@ -36,9 +36,8 @@ users.get('/progress', async (c) => {
 
   if (error) return c.json({ error: error.message }, 500)
 
-  // Calculate overall progress percentage (simplified)
   const completedCount = progress.filter(p => p.status === 'completed').length
-  const totalSubchapters = 10 // Placeholder total
+  const totalSubchapters = 10
   const progressPercentage = Math.round((completedCount / totalSubchapters) * 100)
 
   return c.json({

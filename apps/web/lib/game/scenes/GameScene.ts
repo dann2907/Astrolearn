@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import { fetchRandomQuestion, submitGameResult } from '@/lib/api/game';
+import type { Question, QuestionAnswer, GameResult } from '@/lib/game/types';
 
 export class GameScene extends Phaser.Scene {
   private player!: Phaser.GameObjects.Rectangle;
@@ -10,11 +12,30 @@ export class GameScene extends Phaser.Scene {
   private scoreText!: Phaser.GameObjects.Text;
   private score = 0;
 
+  // HP System
+  private hp = 5;
+  private hpIcons: Phaser.GameObjects.Rectangle[] = [];
+
+  // Question integration
+  private questionTimer = 0;
+  private questionInterval = 30000; // 30 seconds
+  private gameStartTime = 0;
+  private answers: QuestionAnswer[] = [];
+  private isPaused = false;
+  private nextQuestionText!: Phaser.GameObjects.Text;
+
   constructor() {
     super({ key: 'GameScene' });
   }
 
   create() {
+    this.score = 0;
+    this.hp = 5;
+    this.answers = [];
+    this.questionTimer = 0;
+    this.isPaused = false;
+    this.gameStartTime = Date.now();
+    
     this.setupPlayer();
     this.setupControls();
     this.setupBullets();
@@ -71,12 +92,183 @@ export class GameScene extends Phaser.Scene {
       fontSize: '24px',
       color: '#ffffff',
     });
+
+    this.nextQuestionText = this.add.text(
+      400,
+      16,
+      'Soal berikutnya: 30s',
+      {
+        fontSize: '20px',
+        color: '#ffff00',
+      }
+    ).setOrigin(0.5, 0);
+
+    // HP hearts at top-left
+    this.hpIcons = [];
+    for (let i = 0; i < this.hp; i++) {
+      const heart = this.add.rectangle(
+        30 + i * 40,
+        50,
+        30,
+        30,
+        0xff0066
+      );
+      this.hpIcons.push(heart);
+    }
+
+    if (process.env.NODE_ENV === 'development') {
+      const debugDamage = this.add.text(600, 560, 'Damage', {
+        fontSize: '16px',
+        color: '#ffaa00',
+        backgroundColor: '#000000',
+        padding: { x: 10, y: 5 },
+      }).setInteractive();
+
+      debugDamage.on('pointerdown', () => {
+        this.takeDamage(1);
+      });
+
+      const debugGameOver = this.add.text(700, 560, 'End Game', {
+        fontSize: '16px',
+        color: '#ff0000',
+        backgroundColor: '#000000',
+        padding: { x: 10, y: 5 },
+      }).setInteractive();
+
+      debugGameOver.on('pointerdown', () => {
+        this.gameOver();
+      });
+    }
   }
 
-  update(time: number) {
-    this.handleMovement();
-    this.handleShooting(time);
-    this.cleanupBullets();
+  private takeDamage(amount: number) {
+    this.hp -= amount;
+    
+    if (this.hp < 0) this.hp = 0;
+    
+    // Update UI
+    this.hpIcons.forEach((icon, index) => {
+      icon.setVisible(index < this.hp);
+    });
+
+    if (this.hp <= 0) {
+      this.gameOver();
+    }
+  }
+
+  private async gameOver() {
+    this.physics.pause();
+    this.isPaused = true;
+
+    const duration = (Date.now() - this.gameStartTime) / 1000;
+
+    const gameResult: GameResult = {
+      score: this.score,
+      duration,
+      answers: this.answers,
+    };
+
+    // Submit to backend
+    try {
+      const reward = await submitGameResult(gameResult);
+      
+      this.scene.start('GameOverScene', {
+        result: gameResult,
+        reward,
+      });
+    } catch (error) {
+      console.error('Failed to submit game result:', error);
+      
+      // Show game over anyway without rewards
+      this.scene.start('GameOverScene', {
+        result: gameResult,
+      });
+    }
+  }
+
+  update(time: number, delta: number) {
+    if (!this.isPaused) {
+      this.handleMovement();
+      this.handleShooting(time);
+      this.cleanupBullets();
+
+      // Question timer logic
+      this.questionTimer += delta;
+      
+      const secondsUntilQuestion = Math.ceil(
+        (this.questionInterval - this.questionTimer) / 1000
+      );
+      this.nextQuestionText.setText(`Soal berikutnya: ${Math.max(0, secondsUntilQuestion)}s`);
+
+      if (this.questionTimer >= this.questionInterval) {
+        this.pauseForQuestion();
+        this.questionTimer = 0;
+      }
+    }
+  }
+
+  private async pauseForQuestion() {
+    this.isPaused = true;
+    this.physics.pause();
+    this.nextQuestionText.setVisible(false);
+
+    // Show loading indicator
+    const loadingText = this.add.text(400, 300, 'Memuat soal...', {
+      fontSize: '24px',
+      color: '#ffffff',
+    }).setOrigin(0.5);
+
+    try {
+      const question = await fetchRandomQuestion(['tata-surya', 'bintang']);
+      loadingText.destroy();
+      
+      this.scene.pause('GameScene');
+      this.scene.launch('QuestionOverlayScene', {
+        question,
+        onAnswer: (selectedIndex: number) => {
+          this.handleQuestionAnswer(question, selectedIndex);
+        },
+      });
+      this.scene.bringToTop('QuestionOverlayScene');
+    } catch (error) {
+      console.error('Failed to fetch question:', error);
+      loadingText.setText('Gagal memuat soal. Melanjutkan...');
+      this.time.delayedCall(1000, () => {
+        loadingText.destroy();
+        this.resumeGame();
+      });
+    }
+  }
+
+  private handleQuestionAnswer(question: Question, selectedIndex: number) {
+    const isCorrect = selectedIndex === question.correctIndex;
+    
+    // Record answer
+    this.answers.push({
+      questionId: question.id,
+      selectedIndex,
+      correct: isCorrect,
+      timestamp: Date.now() - this.gameStartTime,
+    });
+
+    // TODO: Apply power-up or debuff
+    if (isCorrect) {
+      this.score += 100;
+      this.scoreText.setText(`Skor: ${this.score}`);
+      console.log('Correct! Applying power-up...');
+    } else {
+      console.log('Wrong! Applying debuff...');
+    }
+
+    this.resumeGame();
+  }
+
+  private resumeGame() {
+    this.scene.resume('GameScene');
+    this.scene.pause('QuestionOverlayScene');
+    this.physics.resume();
+    this.isPaused = false;
+    this.nextQuestionText.setVisible(true);
   }
 
   private handleMovement() {
