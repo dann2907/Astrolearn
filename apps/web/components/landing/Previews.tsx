@@ -1,12 +1,23 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Globe, Gamepad2, BrainCircuit, Trophy, 
   ArrowRight, Sparkles, BookOpen, Star, Zap,
-  CheckCircle2, Lock, Shield
+  CheckCircle2, Lock, Shield, MousePointerClick, Info
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+const SolarSystem3D = dynamic(
+  () => import('./SolarSystem3D').then((mod) => ({ default: mod.SolarSystem3D })),
+  { ssr: false, loading: () => (
+    <div className="w-full h-full flex flex-col items-center justify-center bg-slate-950/50 space-y-4">
+      <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+      <p className="text-blue-400 font-bold animate-pulse uppercase tracking-[0.2em] text-xs">Menginisialisasi Engine 3D...</p>
+    </div>
+  )}
+);
 
 interface PreviewProps {
   onCTA: () => void;
@@ -15,78 +26,11 @@ interface PreviewProps {
 export const MateriPreview = ({ onCTA }: PreviewProps) => {
   const [selectedPlanet, setSelectedPlanet] = React.useState<any>(null);
 
-  const solarSystemData = [
-    {
-      id: "matahari",
-      name: "Matahari",
-      mockImg: "/image/mock-matahari.png",
-      colorFallback: "bg-gradient-to-tr from-orange-600 to-yellow-400 shadow-[0_0_50px_rgba(250,204,21,0.4)]",
-      size: "w-20 h-20 md:w-28 md:h-20",
-      position: "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10",
-      ukuran: "1.392.700 km",
-      jarak: "0 km (Pusat)",
-      revolusi: "-",
-      fakta: "Matahari menyumbang 99,86% dari total massa seluruh Tata Surya kita."
-    },
-    {
-      id: "merkurius",
-      name: "Merkurius",
-      mockImg: "/image/mock-merkurius.png",
-      colorFallback: "bg-gradient-to-tr from-slate-500 to-slate-300",
-      size: "w-4 h-4",
-      position: "left-[55%] top-[40%] z-20",
-      orbitSize: "w-[120px] h-[50px] md:w-[160px] md:h-[60px]",
-      ukuran: "4.879 km",
-      jarak: "57,9 Juta km",
-      revolusi: "88 Hari",
-      fakta: "Planet terkecil dan terdekat dengan Matahari."
-    },
-    {
-      id: "venus",
-      name: "Venus",
-      mockImg: "/image/mock-venus.png",
-      colorFallback: "bg-gradient-to-tr from-orange-300 to-amber-100",
-      size: "w-6 h-6",
-      position: "left-[35%] top-[55%] z-20",
-      orbitSize: "w-[180px] h-[80px] md:w-[240px] md:h-[100px]",
-      ukuran: "12.104 km",
-      jarak: "108,2 Juta km",
-      revolusi: "225 Hari",
-      fakta: "Planet terpanas di Tata Surya karena efek rumah kaca ekstrem."
-    },
-    {
-      id: "bumi",
-      name: "Bumi",
-      mockImg: "/image/mock-bumi.png",
-      colorFallback: "bg-gradient-to-tr from-blue-500 to-green-400",
-      size: "w-7 h-7",
-      position: "left-[20%] top-[45%] z-20",
-      orbitSize: "w-[260px] h-[110px] md:w-[340px] md:h-[150px]",
-      ukuran: "12.742 km",
-      jarak: "149,6 Juta km",
-      revolusi: "365,25 Hari",
-      fakta: "Satu-satunya planet yang diketahui memiliki kehidupan."
-    },
-    {
-      id: "mars",
-      name: "Mars",
-      mockImg: "/image/mock-mars.png",
-      colorFallback: "bg-gradient-to-tr from-red-600 to-orange-500",
-      size: "w-5 h-5",
-      position: "left-[75%] top-[35%] z-20",
-      orbitSize: "w-[340px] h-[140px] md:w-[460px] md:h-[200px]",
-      ukuran: "6.779 km",
-      jarak: "227,9 Juta km",
-      revolusi: "687 Hari",
-      fakta: "Dijuluki Planet Merah karena kandungan besi oksida."
-    }
-  ];
-
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-7xl mx-auto flex flex-col items-center py-10 space-y-12"
+      className="w-full max-w-7xl mx-auto flex flex-col items-center py-10 space-y-16"
     >
       {/* Header Preview */}
       <div className="text-center space-y-4 max-w-3xl">
@@ -97,58 +41,99 @@ export const MateriPreview = ({ onCTA }: PreviewProps) => {
           Kurikulum <span className="text-blue-400">Terstruktur</span> Antariksa.
         </h2>
         <p className="text-slate-400 text-lg font-medium leading-relaxed">
-          Eksplorasi simulasi interaktif di bawah ini dan pelajari dasar-dasar astronomi secara mendalam.
+          Pelajari astronomi dari dasar hingga mahir dengan materi yang dirancang oleh para ahli.
         </p>
       </div>
 
-      <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-        {/* Simulation Map */}
-        <div className="lg:col-span-8 relative min-h-[500px] bg-slate-900/30 border border-slate-800/50 rounded-[2.5rem] overflow-hidden flex items-center justify-center group shadow-2xl">
-          <div className="absolute inset-0 bg-blue-900/5 opacity-50 blur-3xl pointer-events-none" />
-          
-          <div className="relative w-full h-full flex items-center justify-center scale-75 md:scale-100">
-            {/* Orbits */}
-            {solarSystemData.slice(1).map((planet) => (
-              <div 
-                key={`orbit-${planet.id}`}
-                className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-slate-700/40 ${planet.orbitSize} pointer-events-none transition-colors group-hover:border-slate-600/60`}
-              />
+      {/* Curriculum Spotlight */}
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <h3 className="text-2xl font-bold text-white flex items-center gap-3">
+               <Sparkles className="w-6 h-6 text-amber-500" /> Materi Pembelajaran
+            </h3>
+            <p className="text-slate-400 font-medium">
+              Eksplorasi modul interaktif yang mencakup seluruh spektrum pengetahuan astronomi modern.
+            </p>
+          </div>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              'Sistem Tata Surya',
+              'Evolusi Bintang',
+              'Galaksi & Lubang Hitam',
+              'Kosmologi Modern'
+            ].map((item, i) => (
+              <li key={i} className="flex items-center gap-3 text-slate-200 font-bold bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
+                <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" /> {item}
+              </li>
             ))}
+          </ul>
+          <button 
+            onClick={onCTA}
+            className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center gap-2 transition-all shadow-lg shadow-blue-600/20 w-fit"
+          >
+            Mulai Belajar Sekarang <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
 
-            {/* Planets */}
-            {solarSystemData.map((planet) => (
-              <motion.div 
-                key={planet.id}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className={`absolute flex flex-col items-center justify-center cursor-pointer ${planet.position}`}
-                onClick={() => setSelectedPlanet(planet)}
-              >
-                <div className={`
-                  relative rounded-full transition-all duration-500 flex items-center justify-center overflow-hidden
-                  ${planet.size} ${planet.colorFallback}
-                  ${selectedPlanet?.id === planet.id ? 'ring-4 ring-white shadow-[0_0_30px_rgba(59,130,246,0.5)]' : 'ring-0'}
-                `}>
-                  <img 
-                    src={planet.mockImg} 
-                    alt={planet.name} 
-                    className="w-full h-full object-cover opacity-60 mix-blend-overlay"
-                    onError={(e: any) => { e.target.style.display = 'none'; }}
-                  />
-                </div>
-                <span className={`mt-2 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg border transition-all duration-300
-                  ${selectedPlanet?.id === planet.id ? 'bg-white text-slate-900 border-white' : 'bg-slate-900/80 text-slate-400 border-slate-700 opacity-0 group-hover:opacity-100'}
-                `}>
-                  {planet.name}
-                </span>
-              </motion.div>
-            ))}
+        <div className="relative group">
+           <div className="absolute inset-0 bg-blue-600/20 rounded-[2.5rem] blur-3xl group-hover:bg-blue-600/30 transition-all" />
+           <div className="relative bg-slate-900 border border-slate-800 rounded-[2.5rem] p-8 space-y-6 shadow-2xl overflow-hidden">
+              <div className="flex justify-between items-center border-b border-slate-800 pb-4">
+                 <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center">
+                       <Globe className="w-7 h-7 text-white" />
+                    </div>
+                    <div>
+                       <h4 className="text-white font-bold">Bab 1: Tata Surya</h4>
+                       <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">4 Sub-materi</p>
+                    </div>
+                 </div>
+                 <span className="text-xs font-bold text-blue-400">Mulai</span>
+              </div>
+              <div className="space-y-4 opacity-50 select-none">
+                 {[
+                   { t: '1.1 Matahari: Sang Jantung', d: 'Mengenal bintang pusat kita.' },
+                   { t: '1.2 Planet Terestrial', d: 'Merkurius, Venus, Bumi, dan Mars.' },
+                 ].map((m, i) => (
+                    <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-slate-950 border border-slate-900">
+                       <div className="w-8 h-8 rounded bg-slate-900 flex items-center justify-center text-xs font-bold text-slate-600">{i+1}</div>
+                       <div>
+                          <h5 className="text-sm font-bold text-white">{m.t}</h5>
+                          <p className="text-[10px] text-slate-500">{m.d}</p>
+                       </div>
+                    </div>
+                 ))}
+              </div>
+           </div>
+        </div>
+      </div>
+
+      {/* Simulation Divider */}
+      <div className="w-full flex flex-col items-center space-y-4 pt-8">
+         <div className="w-px h-20 bg-gradient-to-b from-transparent via-blue-500/50 to-transparent" />
+         <h3 className="text-3xl font-black text-white text-center tracking-tight">
+           Simulasi <span className="text-blue-400">3D Interaktif</span>
+         </h3>
+         <p className="text-slate-500 text-sm font-medium text-center">Klik & Geser untuk memutar. Gunakan Scroll untuk zoom.<br/>Klik matahari atau planet untuk detail.</p>
+      </div>
+
+      <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch min-h-[600px]">
+        {/* 3D Simulation View */}
+        <div className="lg:col-span-8 relative bg-[#020617] border border-slate-800/50 rounded-[2.5rem] overflow-hidden shadow-2xl min-h-[500px]">
+          <SolarSystem3D onSelectPlanet={setSelectedPlanet} />
+          
+          <div className="absolute top-6 left-6 pointer-events-none">
+             <div className="bg-slate-900/80 backdrop-blur px-4 py-2 rounded-xl border border-white/10 text-[10px] font-black text-blue-400 uppercase tracking-widest flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                Live Engine Rendering
+             </div>
           </div>
         </div>
 
         {/* Info Panel */}
         <div className="lg:col-span-4 h-full">
-          <div className="bg-[#0b1121] border border-slate-800 rounded-[2.5rem] p-8 h-full min-h-[400px] shadow-2xl relative overflow-hidden transition-all duration-300">
+          <div className="bg-[#0b1121] border border-slate-800 rounded-[2.5rem] p-8 h-full shadow-2xl relative overflow-hidden transition-all duration-300 min-h-[500px]">
             <AnimatePresence mode="wait">
               {!selectedPlanet ? (
                 <motion.div 
@@ -164,7 +149,7 @@ export const MateriPreview = ({ onCTA }: PreviewProps) => {
                   <div className="space-y-2">
                     <h3 className="text-xl font-bold text-white">Eksplorasi Planet</h3>
                     <p className="text-sm text-slate-400 leading-relaxed">
-                      Klik salah satu planet di peta simulasi untuk melihat data astronomi dan fakta uniknya.
+                      Klik salah satu planet di simulasi 3D untuk melihat data astronomi dan fakta uniknya.
                     </p>
                   </div>
                 </motion.div>
@@ -177,20 +162,24 @@ export const MateriPreview = ({ onCTA }: PreviewProps) => {
                   className="flex flex-col h-full space-y-8"
                 >
                   <div className="flex items-center gap-4 pb-6 border-b border-slate-800">
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-lg ${selectedPlanet.colorFallback} overflow-hidden`}>
-                       <img src={selectedPlanet.mockImg} alt={selectedPlanet.name} className="w-full h-full object-cover opacity-80 mix-blend-overlay" onError={(e: any) => { e.target.style.display = 'none'; }} />
+                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-lg bg-slate-950 overflow-hidden relative border border-white/10">
+                       <img 
+                          src={selectedPlanet.texturePath} 
+                          alt={selectedPlanet.name} 
+                          className="w-full h-full object-cover scale-150"
+                        />
+                       <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent" />
                     </div>
                     <div>
                       <h2 className="text-2xl font-black text-white tracking-tight">{selectedPlanet.name}</h2>
-                      <p className="text-[10px] text-blue-400 font-bold tracking-widest uppercase">Data Planet</p>
+                      <p className="text-[10px] text-blue-400 font-bold tracking-widest uppercase">Data Astronomi</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 gap-3">
                     {[
-                      { l: 'Ukuran (Diameter)', v: selectedPlanet.ukuran },
-                      { l: 'Jarak ke Matahari', v: selectedPlanet.jarak },
-                      { l: 'Periode Revolusi', v: selectedPlanet.revolusi }
+                      { l: 'Jarak ke Matahari', v: selectedPlanet.distStr },
+                      { l: 'Periode Revolusi', v: selectedPlanet.revStr }
                     ].map((stat, i) => (
                       <div key={i} className="bg-slate-900/50 rounded-2xl p-4 border border-slate-800">
                         <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">{stat.l}</p>
@@ -199,19 +188,19 @@ export const MateriPreview = ({ onCTA }: PreviewProps) => {
                     ))}
                   </div>
 
-                  <div className="bg-blue-600/10 border border-blue-500/20 rounded-2xl p-5 space-y-2">
+                  <div className="mt-auto bg-blue-600/10 border border-blue-500/20 rounded-2xl p-5 space-y-2">
                     <div className="flex items-center gap-2">
                       <Info className="w-4 h-4 text-blue-400" />
                       <span className="text-xs font-black text-blue-400 uppercase tracking-widest">Fakta Unik</span>
                     </div>
                     <p className="text-sm text-slate-300 leading-relaxed font-medium italic">
-                      "{selectedPlanet.fakta}"
+                      "{selectedPlanet.facts}"
                     </p>
                   </div>
 
                   <button 
                     onClick={onCTA}
-                    className="mt-auto w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-blue-600/20"
+                    className="mt-6 w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-blue-600/20"
                   >
                     Buka Materi Lengkap
                   </button>
@@ -337,7 +326,7 @@ export const ProgressPreview = ({ onCTA }: PreviewProps) => (
   <motion.div 
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
-    className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center py-10"
+    className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center py-10"
   >
     <div className="space-y-6 text-left">
       <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-bold uppercase tracking-widest">
