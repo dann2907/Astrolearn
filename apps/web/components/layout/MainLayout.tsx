@@ -3,7 +3,6 @@
 import React from 'react'
 import Sidebar from './Sidebar'
 import Header from './Header'
-import MobileNav from './MobileNav'
 
 interface MainLayoutProps {
   children: React.ReactNode
@@ -21,7 +20,7 @@ interface MainLayoutProps {
 
 export default function MainLayout({ children, userData }: MainLayoutProps) {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-violet-500/30 overflow-x-hidden pb-20 md:pb-0">
+    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-violet-500/30 overflow-x-hidden">
       <div className="flex">
         <Sidebar userData={userData} />
         
@@ -33,8 +32,6 @@ export default function MainLayout({ children, userData }: MainLayoutProps) {
           </main>
         </div>
       </div>
-
-      <MobileNav />
 
       <style jsx global>{`
         @keyframes shimmer {

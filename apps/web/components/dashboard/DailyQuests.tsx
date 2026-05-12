@@ -16,7 +16,7 @@ interface DailyQuestsProps {
   initialQuests: Quest[]
 }
 
-export default function DailyQuests({ initialQuests }: DailyQuestsProps) {
+export default function DailyQuests({ initialQuests }: Readonly<DailyQuestsProps>) {
   const [quests] = useState<Quest[]>(initialQuests)
 
   return (

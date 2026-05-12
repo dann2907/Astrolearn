@@ -182,9 +182,8 @@ export function QuizGame({ onComplete }: QuizGameProps) {
         <div className="space-y-4">
           {question.options.map((option, index) => (
             <button
-              key={index}
-              onClick={() => handleAnswer(index)}
-              className="w-full text-left p-4 rounded-lg border-2 border-gray-300 hover:border-cyan-500 hover:bg-cyan-50 transition text-lg"
+              key={option}
+              onClick={() => handleAnswer(index)}              className="w-full text-left p-4 rounded-lg border-2 border-gray-300 hover:border-cyan-500 hover:bg-cyan-50 transition text-lg"
             >
               <span className="font-bold text-cyan-600 mr-3">
                 {String.fromCharCode(65 + index)}.

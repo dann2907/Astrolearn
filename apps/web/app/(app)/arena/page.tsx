@@ -88,9 +88,8 @@ export default function ArenaPage() {
               { label: "Kecepatan", desc: "Semakin cepat menjawab, bonus skor bertambah.", icon: Zap, color: "text-yellow-400" },
               { label: "Akurasi", desc: "Jangan asal klik! Salah mengurangi nyawa.", icon: Target, color: "text-red-400" },
               { label: "Peringkat", desc: "Raih Top 10 untuk masuk ke Hall of Fame.", icon: Trophy, color: "text-amber-400" },
-            ].map((tip, i) => (
-              <div key={i} className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 flex items-start gap-4">
-                <div className={`p-3 rounded-xl bg-slate-950 ${tip.color}`}>
+            ].map((tip) => (
+              <div key={tip.label} className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 flex items-start gap-4">                <div className={`p-3 rounded-xl bg-slate-950 ${tip.color}`}>
                   <tip.icon className="w-5 h-5" />
                 </div>
                 <div>

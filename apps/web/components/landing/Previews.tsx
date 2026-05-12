@@ -62,8 +62,8 @@ export const MateriPreview = ({ onCTA }: PreviewProps) => {
               'Evolusi Bintang',
               'Galaksi & Lubang Hitam',
               'Kosmologi Modern'
-            ].map((item, i) => (
-              <li key={i} className="flex items-center gap-3 text-slate-200 font-bold bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
+            ].map((item) => (
+              <li key={item} className="flex items-center gap-3 text-slate-200 font-bold bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
                 <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" /> {item}
               </li>
             ))}
@@ -96,7 +96,7 @@ export const MateriPreview = ({ onCTA }: PreviewProps) => {
                    { t: '1.1 Matahari: Sang Jantung', d: 'Mengenal bintang pusat kita.' },
                    { t: '1.2 Planet Terestrial', d: 'Merkurius, Venus, Bumi, dan Mars.' },
                  ].map((m, i) => (
-                    <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-slate-950 border border-slate-900">
+                    <div key={m.t} className="flex items-center gap-4 p-4 rounded-xl bg-slate-950 border border-slate-900">
                        <div className="w-8 h-8 rounded bg-slate-900 flex items-center justify-center text-xs font-bold text-slate-600">{i+1}</div>
                        <div>
                           <h5 className="text-sm font-bold text-white">{m.t}</h5>
@@ -135,25 +135,7 @@ export const MateriPreview = ({ onCTA }: PreviewProps) => {
         <div className="lg:col-span-4 h-full">
           <div className="bg-[#0b1121] border border-slate-800 rounded-[2.5rem] p-8 h-full shadow-2xl relative overflow-hidden transition-all duration-300 min-h-[500px]">
             <AnimatePresence mode="wait">
-              {!selectedPlanet ? (
-                <motion.div 
-                  key="empty"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="flex flex-col items-center justify-center h-full text-center space-y-6"
-                >
-                  <div className="w-20 h-20 rounded-3xl border-2 border-dashed border-slate-700 flex items-center justify-center bg-slate-900/50">
-                    <MousePointerClick className="w-8 h-8 text-blue-400 animate-bounce" />
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-bold text-white">Eksplorasi Planet</h3>
-                    <p className="text-sm text-slate-400 leading-relaxed">
-                      Klik salah satu planet di simulasi 3D untuk melihat data astronomi dan fakta uniknya.
-                    </p>
-                  </div>
-                </motion.div>
-              ) : (
+              {selectedPlanet ? (
                 <motion.div 
                   key={selectedPlanet.id}
                   initial={{ opacity: 0, x: 20 }}
@@ -180,8 +162,8 @@ export const MateriPreview = ({ onCTA }: PreviewProps) => {
                     {[
                       { l: 'Jarak ke Matahari', v: selectedPlanet.distStr },
                       { l: 'Periode Revolusi', v: selectedPlanet.revStr }
-                    ].map((stat, i) => (
-                      <div key={i} className="bg-slate-900/50 rounded-2xl p-4 border border-slate-800">
+                    ].map((stat) => (
+                      <div key={stat.l} className="bg-slate-900/50 rounded-2xl p-4 border border-slate-800">
                         <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">{stat.l}</p>
                         <p className="text-white font-bold">{stat.v}</p>
                       </div>
@@ -204,6 +186,24 @@ export const MateriPreview = ({ onCTA }: PreviewProps) => {
                   >
                     Buka Materi Lengkap
                   </button>
+                </motion.div>
+              ) : (
+                <motion.div 
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex flex-col items-center justify-center h-full text-center space-y-6"
+                >
+                  <div className="w-20 h-20 rounded-3xl border-2 border-dashed border-slate-700 flex items-center justify-center bg-slate-900/50">
+                    <MousePointerClick className="w-8 h-8 text-blue-400 animate-bounce" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-bold text-white">Eksplorasi Planet</h3>
+                    <p className="text-sm text-slate-400 leading-relaxed">
+                      Klik salah satu planet di simulasi 3D untuk melihat data astronomi dan fakta uniknya.
+                    </p>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -230,9 +230,9 @@ export const GamePreview = ({ onCTA }: PreviewProps) => (
       Uji ketangkasanmu dalam minigame shooter bertema luar angkasa. Kumpulkan XP dan Stardust untuk upgrade pangkatmu!
     </p>
     
-    <div className="relative w-full aspect-video max-w-4xl bg-slate-950 rounded-[2rem] border-4 border-slate-900 shadow-2xl overflow-hidden group">
+    <div className="relative w-full aspect-video max-w-4xl bg-slate-950 rounded-4xl border-4 border-slate-900 shadow-2xl overflow-hidden group">
        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-30 group-hover:scale-105 transition-transform duration-[10s]" />
-       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+       <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-transparent" />
        
        <div className="absolute inset-0 flex items-center justify-center">
           <motion.div 
@@ -278,12 +278,12 @@ export const QuizPreview = ({ onCTA }: PreviewProps) => (
           <div className="space-y-3">
              {['Saturnus', 'Jupiter', 'Neptunus', 'Mars'].map((opt, i) => (
                 <div 
-                  key={i} 
+                  key={opt} 
                   className={`p-4 rounded-xl border-2 font-bold transition-all ${
                     opt === 'Jupiter' ? 'border-cyan-500 bg-cyan-50 text-cyan-700' : 'border-slate-100 text-slate-400'
                   }`}
                 >
-                  <span className="mr-3">{String.fromCharCode(65 + i)}.</span> {opt}
+                  <span className="mr-3">{String.fromCodePoint(65 + i)}.</span> {opt}
                 </div>
              ))}
           </div>
@@ -344,8 +344,8 @@ export const ProgressPreview = ({ onCTA }: PreviewProps) => (
            { l: 'Navigator', v: 'Level 4-6' },
            { l: 'Kapten Bintang', v: 'Level 7-9' },
            { l: 'Laksamana', v: 'Level 10+' }
-         ].map((p, i) => (
-            <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-slate-900/50 border border-slate-800">
+         ].map((p) => (
+            <div key={p.l} className="flex items-center justify-between p-3 rounded-xl bg-slate-950/50 border border-slate-800">
                <span className="text-sm font-bold text-white">{p.l}</span>
                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{p.v}</span>
             </div>
@@ -364,9 +364,9 @@ export const ProgressPreview = ({ onCTA }: PreviewProps) => (
          { icon: Star, color: 'text-blue-500', label: 'Fast Learner' },
          { icon: Zap, color: 'text-purple-500', label: 'Top Gunner' },
          { icon: Shield, color: 'text-emerald-500', label: 'Planet Keeper' }
-       ].map((b, i) => (
+       ].map((b) => (
           <motion.div 
-            key={i}
+            key={b.label}
             whileHover={{ scale: 1.05 }}
             className="aspect-square rounded-3xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center p-4 text-center space-y-3"
           >

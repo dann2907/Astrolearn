@@ -8,7 +8,7 @@ interface LeaderboardPreviewProps {
   onNavigate: (view: string) => void;
 }
 
-export function LeaderboardPreview({ onNavigate }: LeaderboardPreviewProps) {
+export function LeaderboardPreview({ onNavigate }: Readonly<LeaderboardPreviewProps>) {
   return (
     <GlassCard>
       <div className="flex justify-between items-center mb-6">

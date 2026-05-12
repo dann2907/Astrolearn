@@ -27,9 +27,11 @@ Astrolearn adalah platform edukasi astronomi gratis yang menggabungkan kurikulum
 ## Persiapan Lingkungan
 
 ### 1. Database
+
 Jalankan migrasi di `supabase/migrations/` ke instance Supabase Anda melalui SQL Editor.
 
 ### 2. Environment Variables
+
 - **Web (`apps/web/.env.local`)**:
   - `NEXT_PUBLIC_SUPABASE_URL`
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
@@ -55,6 +57,7 @@ pnpm --filter api dev
 ```
 
 ## Fitur Saat Ini (Sprint 1)
+
 - [x] Sistem Login & Profil (Supabase).
 - [x] Akademi Kosmik dengan materi MDX terstruktur.
 - [x] Kuis mini dengan validasi server-side dan anti-cheat.

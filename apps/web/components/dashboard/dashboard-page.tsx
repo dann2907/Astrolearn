@@ -3,16 +3,14 @@
 import { useEffect } from "react";
 import { Sparkles } from "lucide-react";
 
-import { Achievements } from "@/components/dashboard/achievements";
 import { AIRecommendation } from "@/components/dashboard/ai-recommendation";
+import { AstroNotes } from "@/components/dashboard/astro-notes";
 import { DailyQuests } from "@/components/dashboard/daily-quests";
 import { Header } from "@/components/dashboard/header";
-import { LeaderboardPreview } from "@/components/dashboard/leaderboard-preview";
 import { LearningPathMap } from "@/components/dashboard/learning-path-map";
 import { LoadingScreen } from "@/components/dashboard/loading-screen";
 import { MainQuestCard } from "@/components/dashboard/main-quest-card";
 import { MobileNav } from "@/components/dashboard/mobile-nav";
-import { QuickStats } from "@/components/dashboard/quick-stats";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { useUiStore } from "@/store/use-ui-store";
 import { useUserStore } from "@/store/use-user-store";
@@ -50,25 +48,21 @@ export function DashboardPage() {
         <div className="flex-1 flex flex-col min-w-0">
           <Header levelProgress={levelProgress} onNavigate={navigateTo} />
 
-          <main className="p-4 md:p-8 lg:p-12 space-y-10 max-w-7xl mx-auto w-full">
-            <QuickStats />
+          <main className="p-4 md:p-8 lg:p-12 space-y-16 max-w-5xl mx-auto w-full">
+            <div className="space-y-12">
+              <MainQuestCard onNavigate={navigateTo} />
 
-            <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
-              <div className="xl:col-span-8 space-y-10">
-                <MainQuestCard onNavigate={navigateTo} />
-                <LearningPathMap onNavigate={navigateTo} />
+              <LearningPathMap onNavigate={navigateTo} />
+              
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <div className="lg:col-span-7 space-y-12">
+                  <AIRecommendation onNavigate={navigateTo} />
+                  <AstroNotes />
+                </div>
+                <div className="lg:col-span-5">
+                  <DailyQuests />
+                </div>
               </div>
-
-              <div className="xl:col-span-4 h-full">
-                <DailyQuests />
-              </div>
-            </div>
-
-            <AIRecommendation onNavigate={navigateTo} />
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-10 border-t border-slate-900">
-              <LeaderboardPreview onNavigate={navigateTo} />
-              <Achievements onNavigate={navigateTo} />
             </div>
           </main>
         </div>

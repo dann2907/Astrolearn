@@ -5,6 +5,12 @@ import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import QuizWidget from '@/components/academy/QuizWidget'
+import { NoteHighlighter } from '@/components/academy/NoteHighlighter'
+import OrbitSimulation from '@/components/academy/DynamicOrbitSimulation'
+
+const mdxComponents = {
+  OrbitSimulation,
+}
 
 export default async function ModulePage({
   params,
@@ -56,16 +62,18 @@ export default async function ModulePage({
           <p className="text-slate-400 text-lg">{metadata.description}</p>
         </div>
 
-        <div className="prose prose-invert prose-violet max-w-none 
-          prose-h1:text-3xl prose-h1:font-black prose-h1:tracking-tight
-          prose-h2:text-2xl prose-h2:font-bold prose-h2:tracking-tight prose-h2:mt-8
-          prose-p:text-slate-300 prose-p:leading-relaxed
-          prose-li:text-slate-300
-          prose-blockquote:border-violet-500 prose-blockquote:bg-violet-500/10 prose-blockquote:p-4 prose-blockquote:rounded-r-xl
-          prose-strong:text-white prose-strong:font-bold
-        ">
-          <MDXRemote source={content} />
-        </div>
+        <NoteHighlighter subchapterId={sub?.id || slug}>
+          <div className="prose prose-invert prose-violet max-w-none 
+            prose-h1:text-3xl prose-h1:font-black prose-h1:tracking-tight
+            prose-h2:text-2xl prose-h2:font-bold prose-h2:tracking-tight prose-h2:mt-8
+            prose-p:text-slate-300 prose-p:leading-relaxed
+            prose-li:text-slate-300
+            prose-blockquote:border-violet-500 prose-blockquote:bg-violet-500/10 prose-blockquote:p-4 prose-blockquote:rounded-r-xl
+            prose-strong:text-white prose-strong:font-bold
+          ">
+            <MDXRemote source={content} components={mdxComponents} />
+          </div>
+        </NoteHighlighter>
 
         <div className="mt-16 pt-10 border-t border-slate-800">
           {sub?.id && (

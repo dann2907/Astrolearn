@@ -31,4 +31,9 @@ export const apiClient = {
     method: 'POST', 
     body: JSON.stringify(body) 
   }),
+  put: (endpoint: string, body: any) => apiFetch(endpoint, { 
+    method: 'PUT', 
+    body: JSON.stringify(body) 
+  }),
+  delete: (endpoint: string) => apiFetch(endpoint, { method: 'DELETE' }),
 }

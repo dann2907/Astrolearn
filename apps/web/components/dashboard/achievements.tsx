@@ -9,7 +9,7 @@ interface AchievementsProps {
   onNavigate: (view: string) => void;
 }
 
-export function Achievements({ onNavigate }: AchievementsProps) {
+export function Achievements({ onNavigate }: Readonly<AchievementsProps>) {
   const badges = useUserStore((state) => state.userData.badges);
 
   return (

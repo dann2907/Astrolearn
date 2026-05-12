@@ -1,4 +1,4 @@
-# Sprint 2 (Tim 1) – Core Experience Enhancement
+# Sprint 2 – Core Experience Enhancement
 
 **Tanggal:** 23 Mei – 5 Juni 2026  
 **Tim:** Tim 1 (Core Learning & RPG)  
@@ -191,19 +191,7 @@ Memperkaya pengalaman belajar inti dengan visualisasi interaktif, fitur catatan,
 
 ---
 
-## 7. Jadwal Singkat (2 Minggu)
-
-| Hari | Fokus |
-| :--- | :--- |
-| 1-3 | AK-02 (simulasi orbit), AK-03 (catatan) |
-| 4-6 | DB-02 (Learning Path Map) |
-| 7-9 | DB-03 (AI rekomendasi), RP-02 (Skill Tree) |
-| 10-12 | RP-03 (toko) – jika dikerjakan. Polish, bug fixing. |
-| 13-14 | Integration test, demo preparation. |
-
----
-
-## 8. Risiko & Mitigasi
+## 7. Risiko & Mitigasi
 
 | Risiko | Mitigasi |
 | :--- | :--- |
@@ -212,7 +200,3 @@ Memperkaya pengalaman belajar inti dengan visualisasi interaktif, fitur catatan,
 | User salah pilih spesialisasi | Konfirmasi modal tegas "Tidak bisa diubah". Evaluasi fitur reset di sprint depan. |
 
 ---
-
-**Pengesahan:**  
-Disetujui oleh Project Manager, 22 Mei 2026.  
-Tim 1 mulai 23 Mei 2026.

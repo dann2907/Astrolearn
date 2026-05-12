@@ -8,7 +8,7 @@ interface HeaderProps {
   onNavigate: (view: string) => void;
 }
 
-export function Header({ levelProgress, onNavigate }: HeaderProps) {
+export function Header({ levelProgress, onNavigate }: Readonly<HeaderProps>) {
   const userData = useUserStore((state) => state.userData);
 
   return (
@@ -17,7 +17,7 @@ export function Header({ levelProgress, onNavigate }: HeaderProps) {
         <div className="flex-1">
           <h2 className="text-lg md:text-xl font-bold text-white tracking-tight">
             Selamat datang,{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-violet-400 to-fuchsia-400">
               Navigator {userData.name}!
             </span>
           </h2>
@@ -27,7 +27,7 @@ export function Header({ levelProgress, onNavigate }: HeaderProps) {
         </div>
 
         <div className="hidden lg:flex items-center gap-8">
-          <div className="flex flex-col items-end gap-1.5 min-w-[200px]">
+          <div className="flex flex-col items-end gap-1.5 min-w-50">
             <div className="flex justify-between w-full text-[10px] font-bold uppercase tracking-wider">
               <span className="text-violet-400">{userData.xp} XP</span>
               <span className="text-slate-500">{userData.nextLevelXp} XP</span>
@@ -35,19 +35,11 @@ export function Header({ levelProgress, onNavigate }: HeaderProps) {
             <ProgressBar value={levelProgress} />
             <div className="flex items-center gap-1.5 self-end">
               <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
-              <span className="text-xs font-bold text-amber-500">
+              <span className="text-xs font-bold text-amber-400">
                 {userData.stardust.toLocaleString()} Stardust
               </span>
             </div>
           </div>
-
-          <button
-            onClick={() => onNavigate("academy")}
-            className="bg-violet-600 hover:bg-violet-500 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-[0_0_20px_rgba(124,58,237,0.3)] transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
-          >
-            <Play className="w-4 h-4 fill-current" />
-            Lanjutkan Belajar
-          </button>
         </div>
 
         <div className="lg:hidden flex items-center gap-3">

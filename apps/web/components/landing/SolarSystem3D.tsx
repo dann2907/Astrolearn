@@ -129,7 +129,7 @@ export const SolarSystem3D = ({ onSelectPlanet }: { onSelectPlanet: (data: any) 
     { id: 'bumi', name: 'Bumi', radius: 1.6, distance: 26, speed: 0.01, texturePath: '/planets/bumi.png', distStr: '149.6 Juta km', revStr: '365.25 Hari', facts: 'Rumah kita yang indah dan penuh kehidupan!' },
     { id: 'mars', name: 'Mars', radius: 1.1, distance: 34, speed: 0.008, texturePath: '/planets/mars.png', distStr: '227.9 Juta km', revStr: '687 Hari', facts: 'Si Planet Merah yang penuh debu.' },
     { id: 'jupiter', name: 'Jupiter', radius: 3.5, distance: 48, speed: 0.002, texturePath: '/planets/jupiter.png', distStr: '778.5 Juta km', revStr: '11.9 Tahun', facts: 'Raksasa gas terbesar di keluarga kita!' },
-    { id: 'saturnus', name: 'Saturnus', radius: 3.0, distance: 64, speed: 0.0009, texturePath: '/planets/saturnus.png', hasRings: true, distStr: '1.4 Miliar km', revStr: '29.5 Tahun', facts: 'Punya cincin es yang sangat cantik!' },
+    { id: 'saturnus', name: 'Saturnus', radius: 3, distance: 64, speed: 0.0009, texturePath: '/planets/saturnus.png', hasRings: true, distStr: '1.4 Miliar km', revStr: '29.5 Tahun', facts: 'Punya cincin es yang sangat cantik!' },
     { id: 'uranus', name: 'Uranus', radius: 2.2, distance: 80, speed: 0.0004, texturePath: '/planets/uranus.png', distStr: '2.9 Miliar km', revStr: '84 Tahun', facts: 'Planet es raksasa yang menggelinding miring.' },
     { id: 'neptunus', name: 'Neptunus', radius: 2.1, distance: 96, speed: 0.0001, texturePath: '/planets/neptunus.png', distStr: '4.5 Miliar km', revStr: '164.8 Tahun', facts: 'Planet biru jauh yang sangat berangin.' }
   ], []);

@@ -19,6 +19,29 @@ interface SidebarProps {
   }
 }
 
+const NavBtn = ({ item, pathname }: { item: any; pathname: string }) => {
+  const isActive = pathname === item.href || (item.id === 'dashboard' && pathname === '/dashboard')
+  
+  return (
+    <Link 
+      href={item.href}
+      className={`flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative ${
+        isActive 
+          ? 'bg-violet-600/10 text-white' 
+          : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/50'
+      }`}
+    >
+      {isActive && (
+        <motion.div layoutId="nav-pill" className="absolute left-0 w-1 h-5 bg-violet-500 rounded-r-full" />
+      )}
+      <item.icon className={`w-5 h-5 transition-transform group-hover:scale-110 ${
+        isActive ? 'text-violet-400' : 'text-slate-500 group-hover:text-slate-300'
+      }`} />
+      <span className={isActive ? 'font-bold' : ''}>{item.label}</span>
+    </Link>
+  )
+}
+
 export default function Sidebar({ userData }: SidebarProps) {
   const pathname = usePathname()
   
@@ -36,29 +59,6 @@ export default function Sidebar({ userData }: SidebarProps) {
     { id: 'skilltree', icon: Network, label: 'Skill Tree', href: '/skills' },
     { id: 'collection', icon: Archive, label: 'Koleksi', href: '/collection' },
   ]
-
-  const NavBtn = ({ item }: { item: any }) => {
-    const isActive = pathname === item.href || (item.id === 'dashboard' && pathname === '/dashboard')
-    
-    return (
-      <Link 
-        href={item.href}
-        className={`flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative ${
-          isActive 
-            ? 'bg-violet-600/10 text-white' 
-            : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/50'
-        }`}
-      >
-        {isActive && (
-          <motion.div layoutId="nav-pill" className="absolute left-0 w-1 h-5 bg-violet-500 rounded-r-full" />
-        )}
-        <item.icon className={`w-5 h-5 transition-transform group-hover:scale-110 ${
-          isActive ? 'text-violet-400' : 'text-slate-500 group-hover:text-slate-300'
-        }`} />
-        <span className={isActive ? 'font-bold' : ''}>{item.label}</span>
-      </Link>
-    )
-  }
 
   return (
     <aside className="hidden md:flex flex-col w-[240px] bg-slate-950 border-r border-slate-800/50 h-screen sticky top-0 overflow-y-auto z-40">
@@ -95,7 +95,7 @@ export default function Sidebar({ userData }: SidebarProps) {
             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3 ml-2">Utama</p>
             <div className="space-y-1">
               {mainNav.map(item => (
-                <NavBtn key={item.id} item={item} />
+                <NavBtn key={item.id} item={item} pathname={pathname} />
               ))}
             </div>
           </div>
@@ -104,7 +104,7 @@ export default function Sidebar({ userData }: SidebarProps) {
             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3 ml-2">Progres & Sosial</p>
             <div className="space-y-1">
               {socialNav.map(item => (
-                <NavBtn key={item.id} item={item} />
+                <NavBtn key={item.id} item={item} pathname={pathname} />
               ))}
             </div>
           </div>

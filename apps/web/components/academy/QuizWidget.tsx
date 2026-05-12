@@ -172,7 +172,7 @@ export default function QuizWidget({ subchapterId, onComplete }: QuizWidgetProps
           <div className="grid grid-cols-1 gap-3">
             {q.options.map((opt, i) => (
               <button
-                key={i}
+                key={opt}
                 onClick={() => setSelectedOption(i)}
                 className={`flex items-center gap-4 p-5 rounded-2xl border text-left transition-all ${
                   selectedOption === i 
