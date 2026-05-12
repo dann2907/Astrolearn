@@ -1,6 +1,6 @@
 import { getModuleBySlug } from '@/lib/mdx'
 import { MDXRemote } from 'next-mdx-remote/rsc'
-import { Rocket, ArrowLeft, Star, CheckCircle2 } from 'lucide-react'
+import { ArrowLeft, Star } from 'lucide-react'
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'

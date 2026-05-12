@@ -5,17 +5,22 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, Stars, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 
+interface PlanetData {
+  id: string;
+  name: string;
+  radius: number;
+  distance: number;
+  speed: number;
+  texturePath: string;
+  distStr: string;
+  revStr: string;
+  facts: string;
+  hasRings?: boolean;
+}
+
 interface PlanetProps {
-  data: {
-    id: string;
-    name: string;
-    radius: number;
-    distance: number;
-    speed: number;
-    texturePath: string;
-    hasRings?: boolean;
-  };
-  onClick: (data: any) => void;
+  data: PlanetData;
+  onClick: (data: PlanetData) => void;
 }
 
 const Planet = ({ data, onClick }: PlanetProps) => {
@@ -71,7 +76,7 @@ const Planet = ({ data, onClick }: PlanetProps) => {
   );
 };
 
-const Sun = ({ onClick }: { onClick: (data: any) => void }) => {
+const Sun = ({ onClick }: { onClick: (data: PlanetData) => void }) => {
   const sunRef = useRef<THREE.Mesh>(null);
   const texture = useLoader(THREE.TextureLoader, '/planets/matahari.png');
 
@@ -81,9 +86,12 @@ const Sun = ({ onClick }: { onClick: (data: any) => void }) => {
     }
   });
 
-  const sunData = {
+  const sunData: PlanetData = {
     id: 'matahari',
     name: 'Matahari',
+    radius: 6,
+    distance: 0,
+    speed: 0,
     texturePath: '/planets/matahari.png',
     distStr: 'Pusat (0 km)',
     revStr: '-',
@@ -122,8 +130,8 @@ const Sun = ({ onClick }: { onClick: (data: any) => void }) => {
   );
 };
 
-export const SolarSystem3D = ({ onSelectPlanet }: { onSelectPlanet: (data: any) => void }) => {
-  const planetData = useMemo(() => [
+export const SolarSystem3D = ({ onSelectPlanet }: { onSelectPlanet: (data: PlanetData) => void }) => {
+  const planetData: PlanetData[] = useMemo(() => [
     { id: 'merkurius', name: 'Merkurius', radius: 0.8, distance: 12, speed: 0.04, texturePath: '/planets/merkurius.png', distStr: '57.9 Juta km', revStr: '88 Hari', facts: 'Planet terkecil and terdekat dari Matahari. Sangat panas!' },
     { id: 'venus', name: 'Venus', radius: 1.5, distance: 18, speed: 0.015, texturePath: '/planets/venus.png', distStr: '108.2 Juta km', revStr: '225 Hari', facts: 'Planet terpanas di tata surya!' },
     { id: 'bumi', name: 'Bumi', radius: 1.6, distance: 26, speed: 0.01, texturePath: '/planets/bumi.png', distStr: '149.6 Juta km', revStr: '365.25 Hari', facts: 'Rumah kita yang indah dan penuh kehidupan!' },

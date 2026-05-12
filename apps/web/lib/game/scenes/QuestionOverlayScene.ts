@@ -44,7 +44,7 @@ export class QuestionOverlayScene extends Phaser.Scene {
     panel.setStrokeStyle(4, 0x00ffff);
 
     // Question text
-    const questionText = this.add.text(
+    this.add.text(
       width / 2,
       panelY + 60,
       this.question.text,
@@ -79,7 +79,7 @@ export class QuestionOverlayScene extends Phaser.Scene {
       button.setOrigin(0);
       button.setInteractive();
 
-      const label = this.add.text(
+      this.add.text(
         panelX + 30 + buttonWidth / 2,
         buttonY + buttonHeight / 2,
         `${String.fromCharCode(65 + index)}. ${option}`,

@@ -37,7 +37,7 @@ export default function LearningPathMap({ completedModuleIds }: LearningPathMapP
         </div>
 
         <div className="flex justify-between items-center relative z-10">
-          {nodes.map((node, i) => (
+          {nodes.map((node) => (
             <div key={node.id} className="flex flex-col items-center gap-4">
               <motion.div 
                 whileHover={{ scale: 1.1 }}

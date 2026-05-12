@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BrainCircuit, Loader2, Sparkles, CheckCircle2, XCircle, ArrowRight, Zap, Trophy } from 'lucide-react';
+import { BrainCircuit, Loader2, Sparkles, XCircle, ArrowRight, Trophy } from 'lucide-react';
 import { apiClient } from '@/lib/api-client';
 import { toast } from 'sonner';
 
@@ -11,6 +11,18 @@ interface Question {
   question: string;
   options: string[];
   explanation: string;
+}
+
+interface QuizResultData {
+  passed: boolean;
+  score: number;
+  correctCount: number;
+  totalQuestions: number;
+  levelUpInfo?: {
+    leveledUp: boolean;
+    newLevel: number;
+    newRank: string;
+  };
 }
 
 interface QuizWidgetProps {
@@ -24,7 +36,7 @@ export default function QuizWidget({ subchapterId, onComplete }: QuizWidgetProps
   const [currentIndex, setCurrentCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [answers, setAnswers] = useState<{ questionId: string; selectedOption: number }[]>([]);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<QuizResultData | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -32,7 +44,7 @@ export default function QuizWidget({ subchapterId, onComplete }: QuizWidgetProps
       try {
         const data = await apiClient.get(`/quiz/questions?subChapterId=${subchapterId}`);
         setQuestions(data);
-      } catch (error) {
+      } catch (_error) {
         toast.error("Gagal memuat kuis.");
       } finally {
         setLoading(false);
@@ -65,7 +77,7 @@ export default function QuizWidget({ subchapterId, onComplete }: QuizWidgetProps
         } else {
           toast.error("Skor kamu belum cukup untuk lulus. Coba lagi!");
         }
-      } catch (error) {
+      } catch (_error) {
         toast.error("Gagal mengirim hasil kuis.");
       } finally {
         setSubmitting(false);

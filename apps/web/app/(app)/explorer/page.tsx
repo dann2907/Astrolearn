@@ -3,7 +3,6 @@
 import dynamic from 'next/dynamic';
 import GameUI from '@/components/modules/game/GameUI';
 import { Rocket, Zap, Crosshair } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const GameCanvasWithConfig = dynamic(
   () => import('@/components/modules/game/GameCanvasWithConfig'),

@@ -27,7 +27,7 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
 
 export const apiClient = {
   get: (endpoint: string) => apiFetch(endpoint, { method: 'GET' }),
-  post: (endpoint: string, body: any) => apiFetch(endpoint, { 
+  post: (endpoint: string, body: unknown) => apiFetch(endpoint, { 
     method: 'POST', 
     body: JSON.stringify(body) 
   }),

@@ -14,12 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://astrolearn.vercel.app"),
   title: "AstroLearn - Penjelajah Tata Surya",
   description: "Belajar Astronomi jadi lebih seru, interaktif, dan menyenangkan!",
   openGraph: {
     title: "AstroLearn - Penjelajah Tata Surya",
     description: "Platform edukasi astronomi interaktif dengan gamifikasi RPG.",
-    url: "https://astrolearn.vercel.app", // Adjust if needed
+    url: "https://astrolearn.vercel.app", 
     siteName: "AstroLearn",
     images: [
       {

@@ -1,24 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { Rocket, BookOpen, CheckCircle2, Play, Lock, ChevronRight, Star } from 'lucide-react'
-import { BackButton } from '@/components/shared/back-button'
-
-interface Chapter {
-  id: string
-  title: string
-  sort_order: number
-  is_locked: boolean
-}
-
-interface Subchapter {
-  id: string
-  chapter_id: string
-  title: string
-  slug: string
-  sort_order: number
-  xp_reward: number
-}
+import { BookOpen, CheckCircle2, Play, Lock, ChevronRight, Star } from 'lucide-react'
 
 export default async function AcademyPage() {
   const supabase = await createClient()

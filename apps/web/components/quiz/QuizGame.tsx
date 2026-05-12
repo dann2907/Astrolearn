@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchQuizQuestions } from '@/lib/api/quiz';
 import type { QuizQuestion, QuizAnswer, QuizResult } from '@/lib/quiz/types';
 
@@ -24,6 +24,23 @@ export function QuizGame({ onComplete }: QuizGameProps) {
   const questionStartRef = useRef<number>(Date.now());
   const correctSound = useRef<HTMLAudioElement | null>(null);
   const wrongSound = useRef<HTMLAudioElement | null>(null);
+
+  const finishQuiz = useCallback(() => {
+    const duration = Date.now() - startTimeRef.current;
+    const correctCount = answers.filter(a => a.correct).length;
+    const wrongCount = answers.length - correctCount;
+
+    const result: QuizResult = {
+      score,
+      correctCount,
+      wrongCount,
+      comboMax: maxCombo,
+      answers,
+      duration,
+    };
+
+    onComplete(result);
+  }, [answers, score, maxCombo, onComplete]);
 
   // Load questions and sounds
   useEffect(() => {
@@ -59,7 +76,7 @@ export function QuizGame({ onComplete }: QuizGameProps) {
     }, 100);
 
     return () => clearInterval(interval);
-  }, [loading]);
+  }, [loading, finishQuiz]);
 
   const handleAnswer = (selectedIndex: number) => {
     const question = questions[currentIndex];
@@ -108,23 +125,6 @@ export function QuizGame({ onComplete }: QuizGameProps) {
     } else {
       finishQuiz();
     }
-  };
-
-  const finishQuiz = () => {
-    const duration = Date.now() - startTimeRef.current;
-    const correctCount = answers.filter(a => a.correct).length;
-    const wrongCount = answers.length - correctCount;
-
-    const result: QuizResult = {
-      score,
-      correctCount,
-      wrongCount,
-      comboMax: maxCombo,
-      answers,
-      duration,
-    };
-
-    onComplete(result);
   };
 
   if (loading) {

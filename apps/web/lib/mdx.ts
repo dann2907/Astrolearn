@@ -9,7 +9,7 @@ export interface ModuleMetadata {
   id: string
   description: string
   xp_reward: number
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export async function getModuleBySlug(slug: string) {
