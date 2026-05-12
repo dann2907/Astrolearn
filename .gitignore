@@ -28,6 +28,7 @@ coverage/
 PRD.md
 Prodbacklog.md
 conductor/
+supabase/
 
 # Backend
 dist/
